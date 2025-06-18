@@ -2,12 +2,36 @@
   "version": 2,
   "configurePresets": [
        {
-        "name": "VS_17_2022",
+        "name": "debug",
         "generator": "Visual Studio 17 2022",
         "binaryDir": "build",
         "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_INSTALL_PREFIX": "E:/MyCppLibraries/install/debug"
+
       }
+    },       
+    {
+        "name": "release",
+        "generator": "Visual Studio 17 2022",
+        "binaryDir": "build",
+        "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_INSTALL_PREFIX": "E:/MyCppLibraries/install/release"
+
+      }
+    }
+  ],
+    "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug",
+      "configuration": "Debug"
+    },
+        {
+      "name": "release",
+      "configurePreset": "release",
+      "configuration": "Release"
     }
   ]
 }
