@@ -3,7 +3,8 @@
 #include <thread>
 
 
-TcpServer::TcpServer(std::string port):m_listenSocket{INVALID_SOCKET}, m_addrInfoResult{nullptr}, m_port{port}
+TcpServer::TcpServer(std::string port, std::string webSocketServerIp, std::string webSocketServerPort)
+        : m_listenSocket{INVALID_SOCKET}, m_addrInfoResult{nullptr}, m_port{port}, m_webSocketClient{webSocketServerIp, webSocketServerPort}
 {
     m_clientSockets.push_back(SOCKET(INVALID_SOCKET));
     init();
@@ -12,7 +13,7 @@ TcpServer::TcpServer(std::string port):m_listenSocket{INVALID_SOCKET}, m_addrInf
     bindSocket();
 
     std::cout << "Server configured to listen on port: " << m_port << std::endl;
-
+    std::cout << "WebSocketServer expected to be running on " + webSocketServerIp + ":" + webSocketServerPort << std::endl;
 }
 
 
@@ -99,7 +100,7 @@ void TcpServer::listening()
 
 void TcpServer::run(SOCKET newClientSocket)
 {
-    std::cout << "Polaczono z klientem" << std::endl;
+    std::cout << "XConnected with the client" << std::endl;
     
     char recvbuf[DEFAULT_BUFLEN];
     int iResult{0}, iSendResult{0};

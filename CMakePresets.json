@@ -24,12 +24,12 @@
   ],
     "buildPresets": [
     {
-      "name": "debug",
+      "name": "build-debug",
       "configurePreset": "debug",
       "configuration": "Debug"
     },
         {
-      "name": "release",
+      "name": "build-release",
       "configurePreset": "release",
       "configuration": "Release"
     }

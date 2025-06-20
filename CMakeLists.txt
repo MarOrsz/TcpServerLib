@@ -1,43 +1,25 @@
-# cmake_minimum_required(VERSION 3.10.0)
-
-# set(CMAKE_CXX_STANDARD 17)
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# project(TcpServerLib VERSION 0.1.0 LANGUAGES C CXX)
-
-# include_directories({CMAKE_SOURCE_DIR}/inc)
-
-# add_library(TcpServerLib src/TcpServer.cpp)
-
-# target_link_libraries(TcpServerLib PRIVATE Ws2_32)
-
-
-
-
 cmake_minimum_required(VERSION 3.10)
 project(TcpServerLib VERSION 1.0 LANGUAGES CXX)
 
-# Define the library (STATIC for .lib, SHARED for .dll+.lib)
-add_library(TcpServerLib STATIC
-    src/TcpServer.cpp
-)
+find_package(WebSocketClientLib REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system beast)
 
-# Specify include directories for the library
+add_library(TcpServerLib STATIC src/TcpServer.cpp)
+
 target_include_directories(TcpServerLib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/inc>
     $<INSTALL_INTERFACE:inc>
 )
 
-# Set properties for Windows export/import symbols
+target_link_libraries(TcpServerLib PRIVATE WebSocketClientLib::WebSocketClientLib Boost::system Boost::beast)
+
 if(WIN32)
     target_compile_definitions(TcpServerLib PRIVATE TcpServerLib_EXPORTS)
     target_link_libraries(TcpServerLib PUBLIC Ws2_32)
 endif()
 
-# Specify C++ standard
 target_compile_features(TcpServerLib PUBLIC cxx_std_17)
 
-# Install the library and headers
 install(TARGETS TcpServerLib
     EXPORT TcpServerLibTargets
     ARCHIVE DESTINATION lib
